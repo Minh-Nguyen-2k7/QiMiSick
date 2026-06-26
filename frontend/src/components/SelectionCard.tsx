@@ -13,7 +13,7 @@ interface SelectionCardProps extends SongType {
     onClick: () => void
 }
 
-const SelectionCard = ({ id, title, url, isFavorite, moods, isSelected, onClick }: SelectionCardProps) => {
+const SelectionCard = ({ title, url, isFavorite, moods, isSelected, onClick }: SelectionCardProps) => {
     function getYouTubeID(youtubeUrl: string) {
         return new URLSearchParams(new URL(youtubeUrl).search).get("v");
     }

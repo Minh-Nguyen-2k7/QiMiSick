@@ -8,7 +8,7 @@ interface AlbumSongCardType {
     moods: MoodType[]
 }
 
-const AlbumSongCard = ({ title, url, isBeingListened, onClick, moods }: AlbumSongCardType) => {
+const AlbumSongCard = ({ title, url, isBeingListened, onClick }: AlbumSongCardType) => {
     function getYouTubeID(youtubeUrl: string) {
         return new URLSearchParams(new URL(youtubeUrl).search).get("v");
     }

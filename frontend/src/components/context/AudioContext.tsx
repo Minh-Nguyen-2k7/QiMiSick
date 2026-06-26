@@ -1,4 +1,4 @@
-import React, { useEffect, useRef } from 'react';
+import React, { useEffect } from 'react';
 import { useState, useContext, createContext } from "react";
 interface AudioAnalyzerProps {
     isPlaying: boolean;
@@ -31,6 +31,7 @@ interface AudioContextType {
     playAlbum: (songsList: any[], index: number) => void;
     togglePlay: () => void;
     setIsPlaying: (playing: boolean) => void; // Added so ReactPlayer can update state directly
+    queue: any
 }
 
 const AudioContext = createContext<AudioContextType | undefined>(undefined);
@@ -56,7 +57,7 @@ export const AudioProvider = ({ children }: { children: React.ReactNode }) => {
     };
 
     return (
-        <AudioContext.Provider value={{ isPlaying, currentTrack, currentTrackIndex, playAlbum, togglePlay, setIsPlaying }}>
+        <AudioContext.Provider value={{ queue, isPlaying, currentTrack, currentTrackIndex, playAlbum, togglePlay, setIsPlaying }}>
             {children}
         </AudioContext.Provider>
     );

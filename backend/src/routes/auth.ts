@@ -74,7 +74,6 @@ router.delete("/logout", async (req, res) => {
 router.post('/token', async (req, res) => {
     try {
         const { refreshToken } = req.body
-        console.log("➡️ Backend received refresh token:", refreshToken);
         if (!refreshToken) return res.sendStatus(401)
         const userWithToken = await prisma.user.findFirst({
             where: { refreshToken: refreshToken }
