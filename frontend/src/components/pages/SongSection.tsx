@@ -173,7 +173,7 @@ const SongLibrary = () => {
             setIsProcessing(false); // Always unlock when completely finished
         }
     }
-    const [musicsPerPage, setMusicsPerPage] = useState(9)
+    const [musicsPerPage] = useState(9)
     const [currentPage, setCurrentPage] = useState(1)
     const totalSongs = allSongs.length
     const lastSongIndex = musicsPerPage * currentPage

@@ -117,7 +117,7 @@ const MusicSelectionPage = () => {
         setSelectedSongs(prev => [...new Set([...prev, ...matchingIDs])])
     }, [selectedMoods])
     // --- 1. PAGINATION & NAVIGATION STATE ---
-    const [musicsPerPage, setMusicsPerPage] = useState(9)
+    const [musicsPerPage] = useState(9)
     const [currentPage, setCurrentPage] = useState(1)
     const [activeTab, setActiveTab] = useState("all")
     const { searchQuery, setSearchQuery } = useFilter()

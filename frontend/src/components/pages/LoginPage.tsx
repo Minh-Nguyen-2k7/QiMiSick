@@ -2,7 +2,6 @@ import { useNavigate } from "react-router-dom"
 import { Button } from "../ui/button"
 import {
     Card,
-    CardAction,
     CardContent,
     CardDescription,
     CardFooter,
