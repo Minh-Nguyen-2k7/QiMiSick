@@ -1,0 +1,74 @@
+// This is your Prisma schema file,
+// learn more about it in the docs: https://pris.ly/d/prisma-schema
+
+// Get a free hosted Postgres database in seconds: `npx create-db`
+
+generator client {
+  provider = "prisma-client"
+  output   = "../generated/prisma"
+}
+
+datasource db {
+  provider = "mysql"
+}
+
+model Mood {
+  id            Int           @id @default(autoincrement())
+  name          String        @unique
+  songs         Song[]
+  user          User          @relation(fields: [userId], references: [id])
+  userId        Int
+  moodHistories MoodHistory[]
+}
+
+model Song {
+  id            Int           @id @default(autoincrement())
+  moods         Mood[]
+  title         String
+  url           String
+  isFavorite    Boolean       @default(false)
+  user          User          @relation(fields: [userId], references: [id])
+  userId        Int
+  createdAt     DateTime      @default(now())
+  album         Album?        @relation(fields: [albumId], references: [id])
+  albumId       Int?
+  songHistories SongHistory[]
+}
+
+model User {
+  id            Int           @id @default(autoincrement())
+  username      String        @unique
+  password      String
+  songs         Song[]
+  moods         Mood[]
+  albums        Album[]
+  moodHistories MoodHistory[]
+  refreshToken  String?
+  songHistories SongHistory[]
+}
+
+model Album {
+  id        Int      @id @default(autoincrement())
+  name      String
+  songs     Song[]
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  createdAt DateTime @default(now())
+}
+
+model MoodHistory {
+  id        Int      @id @default(autoincrement())
+  moods     Mood[]
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  createdAt DateTime @default(now())
+}
+
+model SongHistory {
+  id        Int      @id @default(autoincrement())
+  song      Song     @relation(fields: [songId], references: [id])
+  user      User     @relation(fields: [userId], references: [id])
+  userId    Int
+  createdAt DateTime @default(now())
+  songId    Int
+}

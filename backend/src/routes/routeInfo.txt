@@ -1,0 +1,47 @@
+MUSIC RECOMMENDER — BACKEND ROUTE SUMMARY
+==========================================
+
+AUTH
+----
+POST    /auth/register          Create a new user
+POST    /auth/login             Login, returns access + refresh tokens
+POST    /auth/token             Get new access token using refresh token
+DELETE  /auth/logout            Clear refresh token from DB
+
+
+SONGS
+-----
+POST    /song/newSong                           Create a new song
+GET     /song/songs                             Get all songs for current user
+GET     /song/songs/:id                         Get one song with its moods
+PUT     /song/songs/:id                         Update title, url, or isFavourite
+PUT     /song/songs/:songID/moods/:moodID       Connect a mood to a song
+DELETE  /song/songs/:id                         Delete a song
+
+
+MOODS
+-----
+POST    /mood/newMood           Create a new mood
+GET     /mood/moods             Get all moods for current user
+GET     /mood/moods/:id         Get one mood with its songs
+PUT     /mood/moods/:id         Rename a mood
+DELETE  /mood/moods/:id         Delete a mood
+
+
+ALBUMS
+------
+POST    /album/newAlbum                             Create a new album
+GET     /album/albums                               Get all albums for current user
+GET     /album/albums/:id                           Get one album with its songs and moods
+PUT     /album/albums/:id                           Rename an album
+PUT     /album/albums/:albumID/songs/:songID        Connect a song to an album
+DELETE  /album/albums/:id                           Delete an album
+
+
+HISTORY
+-------
+POST    /history/moods          Save a mood combination      body: { moodsID: [1, 2, 3] }
+POST    /history/songs          Log a listened song          body: { songID: 1 }
+GET     /history/moods          Last 5 mood combinations with moods included
+GET     /history/albums         Last 5 created albums
+GET     /history/songs          Last 10 listened songs with song data included
