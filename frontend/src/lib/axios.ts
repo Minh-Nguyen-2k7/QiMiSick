@@ -1,7 +1,5 @@
 import axios from "axios";
 import type { AxiosInstance, InternalAxiosRequestConfig } from "axios";
-import dotenv from 'dotenv'
-dotenv.config()
 interface CustomAxiosRequestConfig extends InternalAxiosRequestConfig {
     _retry?: boolean;
 }
@@ -55,7 +53,8 @@ api.interceptors.response.use(
                 const refreshToken = localStorage.getItem("refreshToken");
                 console.log("🔄 Access token expired! Silently refreshing behind the scenes...");
 
-                const response = await axios.post(`${process.env.REACT_APP_API_URL || import.meta.env.VITE_API_URL}/auth/token`, { refreshToken });
+                // Use your configured Axios instance configuration variable cleanly
+                const response = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/auth/token`, { refreshToken });
 
                 const newAccessToken = response.data.accessToken;
                 localStorage.setItem("accessToken", newAccessToken);
