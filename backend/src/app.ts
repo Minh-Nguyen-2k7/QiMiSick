@@ -12,6 +12,10 @@ const corsOptions = {
     credentials: true
 }
 const app = express()
+app.use((req, res, next) => {
+    console.log(`📡 Incoming Request: ${req.method} ${req.url}`);
+    next();
+});
 app.use(cors(corsOptions))
 app.use(express.json())
 app.use("/auth", authRoutes)
