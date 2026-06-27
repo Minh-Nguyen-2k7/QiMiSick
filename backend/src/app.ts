@@ -7,7 +7,7 @@ import historyRoutes from "./routes/history"
 import fetchRoutes from "./routes/fetch"
 import cors from 'cors';
 const corsOptions = {
-    origin: "http://localhost:4040",
+    origin: process.env.FRONTEND_URL || "http://localhost:4040",
     exposedHeaders: ["Content-Length", "Content-Range"], // Enables scrubbing tracking if needed later
     credentials: true
 }
