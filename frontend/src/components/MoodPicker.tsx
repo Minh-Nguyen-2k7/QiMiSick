@@ -46,21 +46,27 @@ const MoodToSong = ({ songID, onMoodUpdate, currentMoods }: MoodToSongProps) => 
         (md) => !currentMoods.some((cm) => cm.id === md.id)
     )
     const handleSubmit = async () => {
-        for (const id of pickedMoods) {
-            try {
-                await api.put(
-                    `/song/songs/${songID}/moods/${id}`,
-                    {}
-                )
-                toast.success("Mood connected!")
-                await onMoodUpdate()
-            } catch (error) {
-                if (axios.isAxiosError(error) && error.response) {
-                    toast.error(error.response.data)
-                }
-                else {
-                    toast.error("Something went wrong.")
-                }
+        try {
+            // 1. Fire ALL requests simultaneously in parallel 
+            const requests = pickedMoods.map(id =>
+                api.put(`/song/songs/${songID}/moods/${id}`, {})
+            );
+
+            // Wait for all of them to successfully resolve in the cloud
+            await Promise.all(requests);
+
+            // 2. Fire exactly ONE success toast and ONE UI reload
+            toast.success("Moods updated successfully!");
+            await onMoodUpdate();
+
+            // Clear out the selected checkmarks after saving
+            setPickedMoods([]);
+
+        } catch (error) {
+            if (axios.isAxiosError(error) && error.response) {
+                toast.error(error.response.data);
+            } else {
+                toast.error("Something went wrong updating moods.");
             }
         }
     }
