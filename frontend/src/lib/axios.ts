@@ -54,8 +54,8 @@ api.interceptors.response.use(
                 console.log("🔄 Access token expired! Silently refreshing behind the scenes...");
 
                 // Use your configured Axios instance configuration variable cleanly
-                const response = await axios.post(`${import.meta.env.VITE_API_URL || 'http://localhost:8080'}/auth/token`, { refreshToken });
-
+                const baseUrl = (import.meta.env.VITE_API_URL || 'http://localhost:8080').replace(/\/$/, '');
+                const response = await axios.post(`${baseUrl}/auth/token`, { refreshToken });
                 const newAccessToken = response.data.accessToken;
                 localStorage.setItem("accessToken", newAccessToken);
 
