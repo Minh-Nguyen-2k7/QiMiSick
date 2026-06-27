@@ -202,7 +202,7 @@ const SongLibrary = () => {
                                 You've sent us an album!
                             </DialogTitle>
                             <p className="text-sm text-muted-foreground">
-                                Would you like to fetch all songs in your albums at once? ()
+                                Would you like to fetch all songs in your albums at once?
                             </p>
                         </DialogHeader>
                         <DialogFooter className="flex flex-col-reverse sm:flex-row sm:justify-end gap-2">
