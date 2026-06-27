@@ -18,7 +18,9 @@ if (!globalForPrisma.prisma) {
         connectionLimit: 5, // 5 slots is perfectly healthy for single-user dev environments
         allowPublicKeyRetrieval: true,
         // 2. ENFORCE SSL FOR AIVEN CLOUD
-        ssl: true,
+        ssl: {
+            rejectUnauthorized: false
+        },
     });
 
     globalForPrisma.prisma = new PrismaClient({ adapter });
