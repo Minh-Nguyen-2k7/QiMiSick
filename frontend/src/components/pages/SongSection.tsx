@@ -122,9 +122,11 @@ const SongLibrary = () => {
     }
     const [isProcessing, setIsProcessing] = useState(false);
     const handleSubmitTracks = async () => {
-        // 1. Move this flag toggle right to the top so it stays in sync
         if (isProcessing) return;
         setIsProcessing(true);
+
+        // 1. Fire a standard informative toast indicating the process has started
+        toast.info("Importing tracks... Please wait while we process the album.");
 
         try {
             const playlistID = getPlaylistIdFromUrl(ytbUrl);
@@ -135,6 +137,7 @@ const SongLibrary = () => {
             const apiKey = import.meta.env.VITE_YOUTUBE_API_KEY;
             if (!apiKey) {
                 console.error("YOUTUBE_API_KEY is missing from your .env configuration.");
+                toast.error("Configuration error: Missing API key.");
                 return;
             }
 
@@ -146,6 +149,7 @@ const SongLibrary = () => {
                 return;
             }
 
+            // Loop through and sync individual tracks
             for (const ytbUrl of uniqueTrackURLs) {
                 const response = await api.post("/fetch/ytb_title", { url: ytbUrl });
                 const title = response.data.title;
@@ -157,22 +161,24 @@ const SongLibrary = () => {
 
             console.log(`Successfully batch added ${uniqueTrackURLs.length} tracks.`);
             fetchAllSongs();
-            toast.success(`Successfully added ${uniqueTrackURLs.length} tracks`);
+
+            // 2. Fire your standard success toast at the end
+            toast.success(`Successfully added ${uniqueTrackURLs.length} tracks!`);
 
         } catch (error: any) {
             console.error("Routing error adding track(s):", error);
 
-            // 2. Safe string check to make sure it never crashes reading properties of undefined
+            let errorMessage = "Failed to fetch tracks from this playlist.";
             if (error.response?.data?.error?.message) {
-                toast.error(error.response.data.error.message);
+                errorMessage = error.response.data.error.message;
             } else if (error.message) {
-                // This safely catches your manual "YouTube Mix (RD) lists..." text safely
-                toast.error(error.message);
-            } else {
-                toast.error("Failed to fetch tracks from this playlist.");
+                errorMessage = error.message;
             }
+
+            // 3. Fire your standard error toast
+            toast.error(errorMessage);
         } finally {
-            setIsProcessing(false); // Now guaranteed to unlock safely every time!
+            setIsProcessing(false);
         }
     };
     const [musicsPerPage] = useState(9)
