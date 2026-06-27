@@ -14,7 +14,7 @@ const AlbumPlayerPage = () => {
     const [allAlbums, setAllAlbums] = useState<AlbumType[]>([])
     const fetchAllAlbums = async () => {
         try {
-            const request = await api.get("http://localhost:8080/album/albums")
+            const request = await api.get("/album/albums")
             const albums: AlbumType[] = request.data
             const newAlbums = albums.map((album) => ({
                 id: album.id,

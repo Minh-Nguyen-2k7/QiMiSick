@@ -32,7 +32,7 @@ const AlbumPlayer = () => {
     const [albumName, setAlbumName] = useState("YOUR ALBUM PLAYLIST")
     const getAlbum = async () => {
         try {
-            const request = await api.get(`http://localhost:8080/album/albums/${id}`)
+            const request = await api.get(`/album/albums/${id}`)
             const album: AlbumType = request.data
             setSongs(album.songs)
             setAlbumName(album.name)

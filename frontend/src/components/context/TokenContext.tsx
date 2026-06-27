@@ -9,8 +9,8 @@ interface TokenContextType {
 const TokenContext = createContext<TokenContextType | undefined>(undefined)
 
 export const TokenProvider = ({ children }: { children: React.ReactNode }) => {
-    const [refreshToken, setRefreshToken] = useState(localStorage.getItem("refreshToken") || "")
-    const [accessToken, setAccessToken] = useState(localStorage.getItem("accessToken") || "")
+    const [refreshToken, setRefreshToken] = useState(() => localStorage.getItem("refreshToken") || "")
+    const [accessToken, setAccessToken] = useState(() => localStorage.getItem("accessToken") || "")
     const handleSetAccessToken = (token: string) => {
         setAccessToken(token)
         localStorage.setItem("accessToken", token)

@@ -14,7 +14,7 @@ const SongPage = () => {
     useEffect(() => {
         const getSongDetails = async () => {
             try {
-                const request = await api.get(`http://localhost:8080/song/songs/${id}`)
+                const request = await api.get(`/song/songs/${id}`)
                 const song = request.data
                 const songInfo = {
                     id: song.id,

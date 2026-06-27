@@ -38,7 +38,7 @@ const SongLibrary = () => {
     const { accessToken } = useToken()
     const fetchAllSongs = async () => {
         try {
-            const request = await api.get("http://localhost:8080/song/songs")
+            const request = await api.get("/song/songs")
             const songs: SongType[] = request.data
             const newSongs = songs.map((song) => ({
                 id: song.id,
@@ -71,10 +71,10 @@ const SongLibrary = () => {
         }
         else {
             try {
-                const response = await api.post("http://localhost:8080/fetch/ytb_title",
+                const response = await api.post("/fetch/ytb_title",
                     { url: ytbUrl })
                 const title = response.data.title
-                await api.post("http://localhost:8080/song/newSong",
+                await api.post("/song/newSong",
                     {
                         title: title,
                         url: ytbUrl
@@ -97,10 +97,10 @@ const SongLibrary = () => {
     }
     const handleSubmitOneSong = async () => {
         try {
-            const response = await api.post("http://localhost:8080/fetch/ytb_title",
+            const response = await api.post("/fetch/ytb_title",
                 { url: ytbUrl })
             const title = response.data.title
-            await api.post("http://localhost:8080/song/newSong",
+            await api.post("/song/newSong",
                 {
                     title: title,
                     url: ytbUrl
@@ -144,10 +144,10 @@ const SongLibrary = () => {
                 return
             }
             for (const ytbUrl of uniqueTrackURLs) {
-                const response = await api.post("http://localhost:8080/fetch/ytb_title",
+                const response = await api.post("/fetch/ytb_title",
                     { url: ytbUrl })
                 const title = response.data.title
-                await api.post("http://localhost:8080/song/newSong",
+                await api.post("/song/newSong",
                     {
                         title: title,
                         url: ytbUrl

@@ -31,7 +31,7 @@ const LoginPage = () => {
 
         if (nameValid && pwValid) {
             try {
-                const response = await api.post("http://localhost:8080/auth/login", {
+                const response = await api.post("/auth/login", {
                     username: name,
                     password: password
                 })

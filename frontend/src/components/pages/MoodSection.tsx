@@ -38,7 +38,7 @@ const MoodLibrary = () => {
     const fetchLinkedSongs = async (moodID: number) => {
         if (!selectedMood) return
         try {
-            const request = await api.get(`http://localhost:8080/mood/moods/${moodID}`)
+            const request = await api.get(`/mood/moods/${moodID}`)
             const songs: SongType[] = request.data.songs
             setLinkedSongs(songs)
         } catch (error) {
@@ -59,7 +59,7 @@ const MoodLibrary = () => {
     }
     const fetchAllMoods = async () => {
         try {
-            const request = await api.get("http://localhost:8080/mood/moods")
+            const request = await api.get("/mood/moods")
             const moods: MoodType[] = request.data
             const newMoods = moods.map((mood) => ({
                 id: mood.id,
@@ -80,7 +80,7 @@ const MoodLibrary = () => {
     const handleSubmit = async () => {
         if (!moodName.trim()) return toast.error("Mood can't be an empty string")
         try {
-            await api.post("http://localhost:8080/mood/newMood", {
+            await api.post("/mood/newMood", {
                 name: moodName
             })
             toast.success("Mood successfully added!")
@@ -98,7 +98,7 @@ const MoodLibrary = () => {
 
     const removeMood = async (id: number) => {
         try {
-            await api.delete(`http://localhost:8080/mood/moods/${id}`)
+            await api.delete(`/mood/moods/${id}`)
             toast.success("Mood removed.")
             fetchAllMoods()
         } catch (error) {

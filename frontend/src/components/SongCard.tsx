@@ -37,7 +37,7 @@ const SongCard = ({ id, title, url, isFavorite, moods, onMoodUpdate, deleteFilte
     const [filter, setFilter] = useState(false)
     const removeMood = async (moodID: number) => {
         try {
-            await api.delete(`http://localhost:8080/song/songs/${id}/moods/${moodID}`)
+            await api.delete(`/song/songs/${id}/moods/${moodID}`)
             await onMoodUpdate()
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
@@ -50,7 +50,7 @@ const SongCard = ({ id, title, url, isFavorite, moods, onMoodUpdate, deleteFilte
     }
     const removeSong = async (songID: number) => {
         try {
-            await api.delete(`http://localhost:8080/song/songs/${songID}`)
+            await api.delete(`/song/songs/${songID}`)
             await onSongUpdate()
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {
@@ -64,7 +64,7 @@ const SongCard = ({ id, title, url, isFavorite, moods, onMoodUpdate, deleteFilte
     useEffect(() => {
         const updateFavorite = async () => {
             try {
-                await api.put(`http://localhost:8080/song/songs/${id}`,
+                await api.put(`/song/songs/${id}`,
                     { isFavorite: isliked }
                 )
                 if (isliked) {

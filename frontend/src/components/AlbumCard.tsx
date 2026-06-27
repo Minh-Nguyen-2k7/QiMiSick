@@ -47,7 +47,7 @@ const AlbumCard = ({ id, name, createdAt, songs, onAlbumUpdate }: AlbumProps) =>
     }
     const onSaveName = async (id: number, newName: string) => {
         try {
-            await api.put(`http://localhost:8080/album/albums/${id}`,
+            await api.put(`/album/albums/${id}`,
                 {
                     name: newName
                 }
@@ -64,7 +64,7 @@ const AlbumCard = ({ id, name, createdAt, songs, onAlbumUpdate }: AlbumProps) =>
     }
     const handleDeleteAlbum = async (albumID: number) => {
         try {
-            await api.delete(`http://localhost:8080/album/albums/${albumID}`)
+            await api.delete(`/album/albums/${albumID}`)
             await onAlbumUpdate()
         } catch (error) {
             if (axios.isAxiosError(error) && error.response) {

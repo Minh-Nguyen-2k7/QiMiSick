@@ -17,7 +17,7 @@ const MoodToSong = ({ songID, onMoodUpdate, currentMoods }: MoodToSongProps) => 
     const { accessToken } = useToken()
     const fetchAllMoods = async () => {
         try {
-            const request = await api.get("http://localhost:8080/mood/moods")
+            const request = await api.get("/mood/moods")
             const moods: MoodType[] = request.data
             const newMoods = moods.map((mood) => ({
                 id: mood.id,
@@ -49,7 +49,7 @@ const MoodToSong = ({ songID, onMoodUpdate, currentMoods }: MoodToSongProps) => 
         for (const id of pickedMoods) {
             try {
                 await api.put(
-                    `http://localhost:8080/song/songs/${songID}/moods/${id}`,
+                    `/song/songs/${songID}/moods/${id}`,
                     {}
                 )
                 toast.success("Mood connected!")

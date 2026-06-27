@@ -31,7 +31,7 @@ const MusicSelectionPage = () => {
     const [allMoods, setAllMoods] = useState<MoodType[]>([])
     const fetchAllMoods = async () => {
         try {
-            const request = await api.get("http://localhost:8080/mood/moods")
+            const request = await api.get("/mood/moods")
             const moods: MoodType[] = request.data
             const newMoods = moods.map((mood) => ({
                 id: mood.id,
@@ -45,7 +45,7 @@ const MusicSelectionPage = () => {
     const [allSongs, setAllSongs] = useState<SongType[]>([])
     const fetchAllSongs = async () => {
         try {
-            const request = await api.get("http://localhost:8080/song/songs")
+            const request = await api.get("/song/songs")
             const songs: SongType[] = request.data
             const newSongs = songs.map((song) => ({
                 id: song.id,
@@ -68,7 +68,7 @@ const MusicSelectionPage = () => {
         }
         for (const songID of selectedSongs) {
             await api.put(
-                `http://localhost:8080/album/albums/${albumID}/songs/${songID}`, {})
+                `/album/albums/${albumID}/songs/${songID}`, {})
         }
         return true
     }
@@ -78,7 +78,7 @@ const MusicSelectionPage = () => {
             return toast.error("Please name your album")
         }
         try {
-            const response = await api.post("http://localhost:8080/album/newAlbum",
+            const response = await api.post("/album/newAlbum",
                 {
                     name: albumName
                 }

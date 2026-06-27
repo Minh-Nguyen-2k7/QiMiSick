@@ -34,7 +34,7 @@ const RegisterPage = () => {
 
         if (nameValid && pwValid && confirmValid && sameValid) {
             try {
-                await api.post("http://localhost:8080/auth/register", {
+                await api.post("/auth/register", {
                     username: name,
                     password: password
                 })
