@@ -1,6 +1,6 @@
 import RegisterPage from "./components/pages/RegisterPage"
 import { Toaster } from "sonner"
-import { BrowserRouter, Route, Routes } from "react-router-dom"
+import { BrowserRouter, Navigate, Route, Routes } from "react-router-dom"
 import LoginPage from "./components/pages/LoginPage"
 import MusicSelectionPage from "./components/pages/MusicSelectionPage"
 import AlbumPlayerPage from "./components/pages/AlbumPlayerPage"
@@ -17,7 +17,7 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={<Layout />}>
-          <Route index element={<MusicSelectionPage />} />
+          <Route index element={<Navigate to="/register" replace />} />
           <Route path="/selection" element={<MusicSelectionPage />} />
           <Route path="/player" element={<AlbumPlayerPage />} />
           <Route path="/library" element={<LibraryPage />} />
