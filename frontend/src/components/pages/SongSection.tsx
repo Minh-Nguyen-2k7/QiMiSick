@@ -122,57 +122,59 @@ const SongLibrary = () => {
     }
     const [isProcessing, setIsProcessing] = useState(false);
     const handleSubmitTracks = async () => {
-        if (isProcessing) return; // Block any accidental double-triggers instantly
-        const playlistID = getPlaylistIdFromUrl(ytbUrl)
-        if (!playlistID) {
-            throw new Error("This is not a playlist")
-        }
-        const apiKey = import.meta.env.VITE_YOUTUBE_API_KEY
-        if (!apiKey) {
-            console.error("YOUTUBE_API_KEY is missing from your .env configuration.")
-            return
-        }
-        try {
-            const trackURLs = await fetchAllSongsFromPlaylist(playlistID, apiKey)
-            // 2. Filter out duplicates locally using your state array ('songs')
-            // This ensures you don't spam your backend with tracks you already own!
-            const uniqueTrackURLs = filterDuplicateSongs(allSongs, trackURLs)
+        // 1. Move this flag toggle right to the top so it stays in sync
+        if (isProcessing) return;
+        setIsProcessing(true);
 
-            // Guard clause: If everything in the playlist is already added
+        try {
+            const playlistID = getPlaylistIdFromUrl(ytbUrl);
+            if (!playlistID) {
+                throw new Error("This is not a playlist");
+            }
+
+            const apiKey = import.meta.env.VITE_YOUTUBE_API_KEY;
+            if (!apiKey) {
+                console.error("YOUTUBE_API_KEY is missing from your .env configuration.");
+                return;
+            }
+
+            const trackURLs = await fetchAllSongsFromPlaylist(playlistID, apiKey);
+            const uniqueTrackURLs = filterDuplicateSongs(allSongs, trackURLs);
+
             if (uniqueTrackURLs.length === 0) {
-                toast.info("All songs in this album are already in your library!")
-                return
+                toast.info("All songs in this album are already in your library!");
+                return;
             }
+
             for (const ytbUrl of uniqueTrackURLs) {
-                const response = await api.post("/fetch/ytb_title",
-                    { url: ytbUrl })
-                const title = response.data.title
-                await api.post("/song/newSong",
-                    {
-                        title: title,
-                        url: ytbUrl
-                    }
-                )
+                const response = await api.post("/fetch/ytb_title", { url: ytbUrl });
+                const title = response.data.title;
+                await api.post("/song/newSong", {
+                    title: title,
+                    url: ytbUrl
+                });
             }
-            console.log(`Successfully batch added ${uniqueTrackURLs.length} tracks.`)
-            fetchAllSongs()
-            toast.success(`Successfully added ${uniqueTrackURLs.length} tracks`)
+
+            console.log(`Successfully batch added ${uniqueTrackURLs.length} tracks.`);
+            fetchAllSongs();
+            toast.success(`Successfully added ${uniqueTrackURLs.length} tracks`);
+
         } catch (error: any) {
             console.error("Routing error adding track(s):", error);
 
-            // Check if the error contains our custom guard clause message string
-            if (error instanceof Error) {
-                toast.error(error.message);
-            } else if (error.response?.data?.error?.message) {
-                // Fallback to capture direct Google API failure messages if any occur
+            // 2. Safe string check to make sure it never crashes reading properties of undefined
+            if (error.response?.data?.error?.message) {
                 toast.error(error.response.data.error.message);
+            } else if (error.message) {
+                // This safely catches your manual "YouTube Mix (RD) lists..." text safely
+                toast.error(error.message);
             } else {
                 toast.error("Failed to fetch tracks from this playlist.");
             }
         } finally {
-            setIsProcessing(false); // Always unlock when completely finished
+            setIsProcessing(false); // Now guaranteed to unlock safely every time!
         }
-    }
+    };
     const [musicsPerPage] = useState(9)
     const [currentPage, setCurrentPage] = useState(1)
     const totalSongs = allSongs.length
