@@ -54,7 +54,7 @@ api.interceptors.response.use(
                 const refreshToken = localStorage.getItem("refreshToken");
                 console.log("🔄 Access token expired! Silently refreshing behind the scenes...");
 
-                const response = await axios.post<{ accessToken: string }>("http://localhost:8080/auth/token", {
+                const response = await axios.post<{ accessToken: string }>("/auth/token", {
                     refreshToken
                 });
 
