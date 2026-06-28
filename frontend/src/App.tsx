@@ -15,16 +15,17 @@ function App() {
   return (
     <BrowserRouter>
       <Routes>
+        <Route path="/main" element={<MainPage />} />
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
-        <Route path="/" element={<Layout />}>
-          <Route index element={<Navigate to="/main" replace />} />
-          <Route path="/main" element={<MainPage />} />
-          <Route path="/selection" element={<MusicSelectionPage />} />
-          <Route path="/player" element={<AlbumPlayerPage />} />
-          <Route path="/library" element={<LibraryPage />} />
-          <Route path="/library/song" element={<SongLibrary />} />
-          <Route path="/library/mood" element={<MoodLibrary />} />
+        <Route path="/" element={<Navigate to="/main" replace />} />
+        <Route path="/app" element={<Layout />}>
+          <Route index element={<Navigate to="/app/selection" replace />} />
+          <Route path="selection" element={<MusicSelectionPage />} />
+          <Route path="player" element={<AlbumPlayerPage />} />
+          <Route path="library" element={<LibraryPage />} />
+          <Route path="library/song" element={<SongLibrary />} />
+          <Route path="library/mood" element={<MoodLibrary />} />
         </Route>
         <Route path="/song/:id" element={<SongPage />} />
         <Route path="/player/:id" element={<AlbumPlayer />} />
