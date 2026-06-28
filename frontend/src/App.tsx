@@ -10,6 +10,7 @@ import SongLibrary from "./components/pages/SongSection"
 import MoodLibrary from "./components/pages/MoodSection"
 import SongPage from "./components/pages/SongPlayer"
 import AlbumPlayer from "./components/AlbumPlayer"
+import MainPage from "./components/MainPage"
 function App() {
   return (
     <BrowserRouter>
@@ -17,7 +18,8 @@ function App() {
         <Route path="/register" element={<RegisterPage />} />
         <Route path="/login" element={<LoginPage />} />
         <Route path="/" element={<Layout />}>
-          <Route index element={<Navigate to="/register" replace />} />
+          <Route index element={<Navigate to="/main" replace />} />
+          <Route path="/main" element={<MainPage />} />
           <Route path="/selection" element={<MusicSelectionPage />} />
           <Route path="/player" element={<AlbumPlayerPage />} />
           <Route path="/library" element={<LibraryPage />} />
