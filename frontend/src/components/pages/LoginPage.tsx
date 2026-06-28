@@ -40,7 +40,7 @@ const LoginPage = () => {
                 setRefreshToken(refreshToken)
                 // Go into the main page
                 toast.success(`Welcome User ${name.toUpperCase()}!`)
-                nagivate("/")
+                nagivate("/app")
             } catch (error) {
                 if (axios.isAxiosError(error) && error.response) {
                     toast.error(error.response.data)
