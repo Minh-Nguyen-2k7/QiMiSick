@@ -15,7 +15,7 @@ const Sidebar = () => {
         } finally {
             localStorage.removeItem("accessToken")
             localStorage.removeItem("refreshToken")
-            navigate("/login")
+            navigate("/main")
         }
     }
 
