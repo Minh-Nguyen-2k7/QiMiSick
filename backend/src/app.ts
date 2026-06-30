@@ -7,8 +7,10 @@ import historyRoutes from "./routes/history"
 import fetchRoutes from "./routes/fetch"
 import cors from 'cors';
 const corsOptions = {
-    origin: process.env.FRONTEND_URL || "http://localhost:4040",
-    exposedHeaders: ["Content-Length", "Content-Range"], // Enables scrubbing tracking if needed later
+    origin: process.env.FRONTEND_URL
+        ? [process.env.FRONTEND_URL, "http://localhost:4040"]
+        : "http://localhost:4040",
+    exposedHeaders: ["Content-Length", "Content-Range"],
     credentials: true
 }
 const app = express()
