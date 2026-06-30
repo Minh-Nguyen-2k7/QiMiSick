@@ -116,7 +116,7 @@ const MoodLibrary = () => {
             <div className="flex items-center gap-4 mb-8 border-b border-slate-800 pb-5">
                 <div>
                     <Link
-                        to="/library"
+                        to="/app/library"
                         className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-400 hover:text-white transition-colors"
                     >
                         <ArrowLeft className="w-3.5 h-3.5" />

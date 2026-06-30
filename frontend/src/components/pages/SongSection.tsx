@@ -249,7 +249,7 @@ const SongLibrary = () => {
             }
             <div className="mb-4">
                 <Link
-                    to="/library"
+                    to="/app/library"
                     className="inline-flex items-center gap-1.5 text-sm font-semibold text-slate-500 hover:text-slate-900 transition-colors"
                 >
                     <ArrowLeft className="w-3.5 h-3.5" />
