@@ -15,7 +15,7 @@ export default function MusicLibrary() {
 
                 {/* 🎵 Track Collection Dashboard Card */}
                 <Link
-                    to="/library/song"
+                    to="/app/library/song"
                     className="group relative flex flex-col justify-between p-6 bg-white border border-slate-200 rounded-xl shadow-sm hover:border-slate-300 hover:shadow-md transition-all duration-200"
                 >
                     <div className="space-y-3">
@@ -36,7 +36,7 @@ export default function MusicLibrary() {
 
                 {/* 😄 Mood Dimension Layout Card */}
                 <Link
-                    to="/library/mood"
+                    to="/app/library/mood"
                     className="group relative flex flex-col justify-between p-6 bg-white border border-slate-200 rounded-xl shadow-sm hover:border-slate-300 hover:shadow-md transition-all duration-200"
                 >
                     <div className="space-y-3">

@@ -39,9 +39,9 @@ const Sidebar = () => {
 
             {/* Application Section Navigation Tabs */}
             <nav className="flex flex-col gap-1">
-                <button className={getTabClass("/selection")} onClick={() => navigate("/selection")}>Music Selection</button>
-                <button className={getTabClass("/player")} onClick={() => navigate("/player")}>Album Player</button>
-                <button className={getTabClass("/library")} onClick={() => navigate("/library")}>Music Library</button>
+                <button className={getTabClass("/app/selection")} onClick={() => navigate("/selection")}>Music Selection</button>
+                <button className={getTabClass("/app/player")} onClick={() => navigate("/player")}>Album Player</button>
+                <button className={getTabClass("/app/library")} onClick={() => navigate("/library")}>Music Library</button>
             </nav>
 
             {/* Fixed Sticky Floor Logout Action */}

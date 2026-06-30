@@ -150,13 +150,20 @@ const SongLibrary = () => {
             }
 
             // Loop through and sync individual tracks
-            for (const ytbUrl of uniqueTrackURLs) {
-                const response = await api.post("/fetch/ytb_title", { url: ytbUrl });
-                const title = response.data.title;
-                await api.post("/song/newSong", {
-                    title: title,
-                    url: ytbUrl
-                });
+            for (const trackUrl of uniqueTrackURLs) {
+                try {
+                    const response = await api.post("/fetch/ytb_title", { url: trackUrl });
+                    const title = response.data.title;
+
+                    await api.post("/song/newSong", {
+                        title: title,
+                        url: trackUrl
+                    });
+                } catch (trackError: any) {
+                    // Log the failure for this specific song but don't break the album loop
+                    console.warn(`Skipping unavailable track ${trackUrl}:`, trackError.response?.data || trackError.message);
+                    continue;
+                }
             }
 
             console.log(`Successfully batch added ${uniqueTrackURLs.length} tracks.`);
