@@ -406,7 +406,7 @@ const AlbumPlayer = () => {
 
                     <div className="px-5 z-10 flex flex-col justify-end bg-transparent flex-shrink-0">
                         <Button
-                            onClick={() => navigate("/player")}
+                            onClick={() => navigate("/app/player")}
                             className="w-full h-12 mt-6 cursor-pointer bg-[#151821] hover:bg-[#1c1f2b] text-slate-300 hover:text-slate-100 border border-slate-800 hover:border-slate-700 rounded-xl font-semibold tracking-wide shadow-md transition-all text-sm"
                         >
                             Back To Album List
