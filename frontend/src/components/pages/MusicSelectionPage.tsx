@@ -61,15 +61,13 @@ const MusicSelectionPage = () => {
     }
     const [open, setOpen] = useState(false)
     const [albumName, setAlbumName] = useState("")
-    const connectAlbum = async (albumID: number) => {
+    const connectAlbum = async (albumID: number | undefined) => {
         if (selectedSongs.length === 0) {
             toast.error("Please select at least a song")
             return false
         }
-        for (const songID of selectedSongs) {
-            await api.put(
-                `/album/albums/${albumID}/songs/${songID}`, {})
-        }
+        const requests = selectedSongs.map(songID => api.put(`/album/albums/${albumID}/songs/${songID}`, {}))
+        await Promise.all(requests)
         return true
     }
     const [listenToCreatedAlbum, setListenToCreatedAlbum] = useState(false)
@@ -77,13 +75,14 @@ const MusicSelectionPage = () => {
         if (!albumName) {
             return toast.error("Please name your album")
         }
+        let albumID: number | undefined
         try {
             const response = await api.post("/album/newAlbum",
                 {
                     name: albumName
                 }
             )
-            const albumID = response.data.id
+            albumID = response.data.id
             const success = await connectAlbum(albumID)
             if (!success) return
             setListenToCreatedAlbum(true)
@@ -91,11 +90,18 @@ const MusicSelectionPage = () => {
             setSelectedMoods([])
             setOpen(false)
         } catch (error) {
+            if (albumID) {
+                try {
+                    await api.delete(`/album/albums/${albumID}`)
+                } catch (error) {
+                    console.error("Failed to clean up orphaned album:", error)
+                }
+            }
             if (axios.isAxiosError(error) && error.response) {
                 toast.error(error.response.data)
             }
             else {
-                toast.error("Something went wrong.")
+                toast.error("Album was not created.")
             }
         }
     }

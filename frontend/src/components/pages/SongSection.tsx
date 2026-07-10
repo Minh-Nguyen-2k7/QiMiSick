@@ -149,8 +149,7 @@ const SongLibrary = () => {
                 return;
             }
 
-            // Loop through and sync individual tracks
-            for (const trackUrl of uniqueTrackURLs) {
+            const addSongs = async (trackUrl: string) => {
                 try {
                     const response = await api.post("/fetch/ytb_title", { url: trackUrl });
                     const title = response.data.title;
@@ -162,8 +161,15 @@ const SongLibrary = () => {
                 } catch (trackError: any) {
                     // Log the failure for this specific song but don't break the album loop
                     console.warn(`Skipping unavailable track ${trackUrl}:`, trackError.response?.data || trackError.message);
-                    continue;
                 }
+            }
+            const batchSize = 50
+            const batchAmount = Math.ceil(uniqueTrackURLs.length / batchSize)
+            for (let i = 0; i < batchAmount; i++) {
+                const urlBatch = uniqueTrackURLs.slice(0 + batchSize * i, Math.min(batchSize * (i + 1), uniqueTrackURLs.length))
+                const requests = urlBatch.map((url) => addSongs(url))
+
+                await Promise.all(requests)
             }
 
             console.log(`Successfully batch added ${uniqueTrackURLs.length} tracks.`);
