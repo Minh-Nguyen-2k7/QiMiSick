@@ -33,6 +33,9 @@ model Song {
   album         Album?        @relation(fields: [albumId], references: [id])
   albumId       Int?
   songHistories SongHistory[]
+
+  @@index([userId])
+  @@index([albumId])
 }
 
 model User {
@@ -54,6 +57,8 @@ model Album {
   user      User     @relation(fields: [userId], references: [id])
   userId    Int
   createdAt DateTime @default(now())
+
+  @@index([userId])
 }
 
 model MoodHistory {
