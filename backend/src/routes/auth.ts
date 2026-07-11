@@ -46,7 +46,7 @@ router.post("/login", async (req, res) => {
 
         // Provide user with tokens
         const accessToken = generateAccessToken({ username: username })
-        const refreshToken = jwt.sign({ username: username }, process.env.REFRESH_TOKEN_SECRET!)
+        const refreshToken = jwt.sign({ username: username }, process.env.REFRESH_TOKEN_SECRET!, { expiresIn: '604800s' })
         await prisma.user.update({
             where: { id: findUser.id },
             data: { refreshToken: refreshToken }
@@ -72,16 +72,33 @@ router.delete("/logout", async (req, res) => {
 
 // Token route
 router.post('/token', async (req, res) => {
+    const { refreshToken } = req.body
+    if (!refreshToken) return res.sendStatus(401)
+
+    // Step 1: Verify the JWT itself (signature + expiration)
+    let decoded
     try {
-        const { refreshToken } = req.body
-        if (!refreshToken) return res.sendStatus(401)
+        decoded = jwt.verify(refreshToken, process.env.REFRESH_TOKEN_SECRET!)
+    } catch (error) {
+        if (error instanceof jwt.TokenExpiredError) {
+            return res.status(403).send("Refresh token expired, please log in again")
+        }
+        // Any other verify failure = malformed/tampered/wrong-secret token
+        return res.status(403).send("Invalid refresh token")
+    }
+
+    // Step 2: Check the token still matches what's on record (i.e. not revoked via logout)
+    try {
         const userWithToken = await prisma.user.findFirst({
             where: { refreshToken: refreshToken }
         })
         if (!userWithToken) return res.sendStatus(403)
+
         const accessToken = generateAccessToken({ username: userWithToken.username })
         return res.json({ accessToken: accessToken })
+
     } catch (error) {
+        // This catch is now ONLY for genuine server/DB failures
         console.error("Token refresh route failure context:", error)
         return res.status(500).send("Internal Server Error")
     }
