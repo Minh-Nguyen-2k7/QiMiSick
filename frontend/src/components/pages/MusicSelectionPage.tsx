@@ -366,7 +366,7 @@ const MusicSelectionPage = () => {
                                 type="button"
                                 variant="default"
                                 className="w-full sm:w-auto min-w-[70px]"
-                                onClick={() => navigate("/player")}
+                                onClick={() => navigate("/app/player")}
                             >
                                 Yes, listen
                             </Button>
